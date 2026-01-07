@@ -1,3 +1,5 @@
+package zookalkulator;
+
 import java.util.Scanner;
 
 public class Zookalkulator {
@@ -20,53 +22,61 @@ public class Zookalkulator {
         System.out.print("Anzahl Erwachsene: ");
         int anzahlErwachsene = scanner.nextInt();
 
-        System.out.print("Anzahl Ermäßigte (Kinder/Schüler/Senioren): ");
+        System.out.print("Anzahl Ermaeßigte (Kinder/Schueler/Senioren): ");
         int anzahlErmaessigt = scanner.nextInt();
 
         // --- Parkgebühr ---
-        System.out.print("Parkplatz benötigt? (j/n): ");
+        System.out.print("Parkplatz benoetigt? (j/n): ");
         boolean parkplatz = scanner.next().equalsIgnoreCase("j");
 
         // --- Zusatzangebote ---
-        System.out.print("Ziegenfütterung hinzufügen? (+4,00 € pro Person) (j/n): ");
+        System.out.print("Ziegenfuetterung hinzufuegen? (+4,00 € pro Person) (j/n): ");
         boolean ziegen = scanner.next().equalsIgnoreCase("j");
 
         System.out.print("Orca-Show besuchen? (+12,00 € pro Person) (j/n): ");
         boolean orca = scanner.next().equalsIgnoreCase("j");
 
         // --- Berechnung ---
-        double kostenEintritt = anzahlErwachsene * PREIS_ERWACHSEN +
-                                anzahlErmaessigt * PREIS_ERMAESSIGT;
+        double kostenEintritt = anzahlErwachsene * PREIS_ERWACHSEN
+                + anzahlErmaessigt * PREIS_ERMAESSIGT;
 
         double kostenParken = parkplatz ? PARKGEBUEHR : 0;
 
-        double kostenExtras = 0;
         int gesamtPersonen = anzahlErwachsene + anzahlErmaessigt;
+        double kostenExtras = 0;
 
         if (ziegen) kostenExtras += gesamtPersonen * ZIEGENFUETTERUNG;
         if (orca) kostenExtras += gesamtPersonen * ORCA_SHOW;
 
         double gesamt = kostenEintritt + kostenParken + kostenExtras;
 
-        // --- Auftragsnummer generieren ---
+        // --- Auftragsnummer ---
         String auftragsNummer = generateOrderNumber();
 
         // --- Ausgabe ---
-        System.out.println("\n===== Kostenübersicht =====");
+        System.out.println("\n===== Kostenuebersicht =====");
+
         System.out.printf("Eintritt Erwachsene: %d × %.2f € = %.2f €\n",
-                anzahlErwachsene, PREIS_ERWACHSEN, anzahlErwachsene * PREIS_ERWACHSEN);
+                anzahlErwachsene, PREIS_ERWACHSEN,
+                anzahlErwachsene * PREIS_ERWACHSEN);
 
-        System.out.printf("Eintritt Ermäßigt: %d × %.2f € = %.2f €\n",
-                anzahlErmaessigt, PREIS_ERMAESSIGT, anzahlErmaessigt * PREIS_ERMAESSIGT);
+        System.out.printf("Eintritt Ermaeßigt: %d × %.2f € = %.2f €\n",
+                anzahlErmaessigt, PREIS_ERMAESSIGT,
+                anzahlErmaessigt * PREIS_ERMAESSIGT);
 
-        if (parkplatz)
+        if (parkplatz) {
             System.out.printf("Parkplatz: %.2f €\n", kostenParken);
+        }
 
-        if (ziegen)
-            System.out.printf("Ziegenfütterung: %.2f €\n", gesamtPersonen * ZIEGENFUETTERUNG);
+        if (ziegen) {
+            System.out.printf("Ziegenfuetterung: %.2f €\n",
+                    gesamtPersonen * ZIEGENFUETTERUNG);
+        }
 
-        if (orca)
-            System.out.printf("Orca-Show: %.2f €\n", gesamtPersonen * ORCA_SHOW);
+        if (orca) {
+            System.out.printf("Orca-Show: %.2f €\n",
+                    gesamtPersonen * ORCA_SHOW);
+        }
 
         System.out.println("---------------------------");
         System.out.printf("GESAMT: %.2f €\n", gesamt);
@@ -75,17 +85,17 @@ public class Zookalkulator {
         System.out.println("Barcode:");
         printBarcode(auftragsNummer);
 
-        System.out.println("\nVielen Dank für Ihre Buchung!");
+        System.out.println("\nVielen Dank fuer Ihre Buchung!");
+        scanner.close();
     }
 
     public static String generateOrderNumber() {
-        return "ZOO-" + (int)(Math.random() * 900000 + 100000);
+        return "ZOO-" + (int) (Math.random() * 900000 + 100000);
     }
 
     public static void printBarcode(String code) {
         for (char c : code.toCharArray()) {
             int value = (int) c;
-
             for (int i = 0; i < value % 10 + 3; i++) {
                 System.out.print("|");
             }
